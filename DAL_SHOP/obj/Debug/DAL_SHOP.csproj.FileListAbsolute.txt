@@ -1,0 +1,12 @@
+D:\NTQ\Project_GĐ1\NTQ_Soulution\Shop_NTQ\DAL_SHOP\obj\Debug\DAL_SHOP.csproj.AssemblyReference.cache
+D:\NTQ\Project_GĐ1\NTQ_Soulution\Shop_NTQ\DAL_SHOP\obj\Debug\DAL_SHOP.csproj.CoreCompileInputs.cache
+D:\NTQ\Project_GĐ1\NTQ_Soulution\Shop_NTQ\DAL_SHOP\bin\Debug\DAL_SHOP.dll
+D:\NTQ\Project_GĐ1\NTQ_Soulution\Shop_NTQ\DAL_SHOP\bin\Debug\DAL_SHOP.pdb
+D:\NTQ\Project_GĐ1\NTQ_Soulution\Shop_NTQ\DAL_SHOP\obj\Debug\DAL_SHOP.dll
+D:\NTQ\Project_GĐ1\NTQ_Soulution\Shop_NTQ\DAL_SHOP\obj\Debug\DAL_SHOP.pdb
+D:\NTQ\Project_GĐ1\NTQ_Soulution\Shop_NTQ\DAL_SHOP\bin\Debug\DAL_SHOP.dll.config
+D:\NTQ\Project_GĐ1\NTQ_Soulution\Shop_NTQ\DAL_SHOP\bin\Debug\EntityFramework.dll
+D:\NTQ\Project_GĐ1\NTQ_Soulution\Shop_NTQ\DAL_SHOP\bin\Debug\EntityFramework.SqlServer.dll
+D:\NTQ\Project_GĐ1\NTQ_Soulution\Shop_NTQ\DAL_SHOP\bin\Debug\EntityFramework.xml
+D:\NTQ\Project_GĐ1\NTQ_Soulution\Shop_NTQ\DAL_SHOP\bin\Debug\EntityFramework.SqlServer.xml
+D:\NTQ\Project_GĐ1\NTQ_Soulution\Shop_NTQ\DAL_SHOP\obj\Debug\DAL_SHOP.csproj.CopyComplete
