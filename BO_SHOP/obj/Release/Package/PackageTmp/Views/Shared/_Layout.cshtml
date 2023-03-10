@@ -18,13 +18,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav w-100">
-                @if (Session["user"] != null && ((DAL_SHOP.Models.User)Session["user"]).Role == 0)
+                @if (Session["user"] == null)
                 {
                     <li class="nav-item active">
                         @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
                     </li>
+                }
+                else if (Session["user"] != null && ((DAL_SHOP.Models.User)Session["user"]).Role == 0)
+                {
                     <li class="nav-item">
-                        @Html.ActionLink("Product", "Index", "Home", null, new { @class = "nav-link" })
+                        @Html.ActionLink("Product", "Listproduct", "Products", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("My reviews", "Index", "Home", null, new { @class = "nav-link" })
@@ -36,11 +39,9 @@
                 }
                 else
                 {
-                    <li class="nav-item active">
-                        @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
-                    </li>
+
                     <li class="nav-item">
-                        @Html.ActionLink("List User", "Listuser", "Admin",null, new { @class = "nav-link" })
+                        @Html.ActionLink("List User", "Listuser", "Admin", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("List Shop", "Index", "Home", null, new { @class = "nav-link" })

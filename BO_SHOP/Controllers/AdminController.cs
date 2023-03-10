@@ -130,9 +130,6 @@ namespace BO_SHOP.Controllers
                 ViewBag.ErrorMessage = "Email đã tồn tại, xin mời nhập email khác!!!";
                 return View("Create");
             }
-            //SHA256 sha = SHA256.Create();
-            //byte[] rs = sha.ComputeHash(Encoding.UTF8.GetBytes(pass));
-            //_u.Password = BitConverter.ToString(rs).Replace("-", string.Empty);
             _u.Password = pass;
             _u.CreatedAt = DateTime.Now;
             try

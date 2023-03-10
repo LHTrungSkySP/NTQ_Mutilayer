@@ -4,7 +4,7 @@
     <div class="card">
         <div class="card-body">
             <h5 class="card-title">Edit Product</h5>
-            <form action="~/Products/Edit" method="post">
+            <form action="~/Products/Edit" method="post" enctype="multipart/form-data">
                 <div class="form-group">
                     <label for="ProductName">ProductName</label>
                     <input type="text" class="form-control" id="ProductName" name="ProductName" value="@Model.Productname" placeholder="Nhập tên sản phẩm">
@@ -55,7 +55,24 @@
                     }
 
                 </div>
+                <div class="form-group">
+                    @{
+                        List<string> ds = ViewBag.Image;
 
+                        for (int i = 0; ds !=null && i < ds.Count; i++)
+                        {
+                            var ImagePath = "~/Image/" + ds[i];
+                            <label for="image">Image</label>
+                            <div class="col-md-10">
+                                <img id="output" class="img-thumbnail" alt="Ảnh" width="180" height="200" src="@Url.Content(ImagePath)" />
+                                <p><label for="ufile" style="cursor: pointer;">Chọn file ảnh</label></p>
+                                <input name="ImageFile" id="ufile" type="file" style="display: none;" onchange="loadFile(event)" />
+                            </div>
+
+                        }
+                    }
+
+                </div>
 
                 @if (ViewBag.ErrorMessage != null)
                 {
@@ -76,3 +93,9 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+<script>
+    var loadFile = function (event) {
+        var image = document.getElementById('output');
+        image.src = URL.createObjectURL(event.target.files[0]);
+    };
+</script>

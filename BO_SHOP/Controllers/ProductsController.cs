@@ -38,7 +38,10 @@ namespace BO_SHOP.Controllers
                     command.Parameters.Add(new SqlParameter("@Trending", trending));
                     command.Parameters.Add(new SqlParameter("@Keyword", keyword));
                     command.Parameters.Add(new SqlParameter("@IsView", isview));
-
+                    if (Session["user"]!=null && ((User)Session["user"]).Role != 0)
+                    {
+                        command.Parameters.Add(new SqlParameter("@IsPublished", 1));
+                    }
                     using (var reader = command.ExecuteReader())
                     {
                         while (reader.Read())
@@ -126,7 +129,7 @@ namespace BO_SHOP.Controllers
                     using (var command = new SqlCommand("MediasShowById", conn))
                     {
                         command.CommandType = CommandType.StoredProcedure;
-                        command.Parameters.Add(new SqlParameter("@id", pageNumber));
+                        command.Parameters.Add(new SqlParameter("@id", products[i].Id));
                         using (var reader = command.ExecuteReader())
                         {
                             while (reader.Read())
@@ -191,6 +194,7 @@ namespace BO_SHOP.Controllers
         [HttpPost]
         public ActionResult Create(FormCollection f)
         {
+                Media m = new Media();
             Product p = new Product();
             p.Id = db.Products.Max(u => u.Id) + 1;
             p.Productname = Request["Productname"].ToString();
@@ -234,8 +238,21 @@ namespace BO_SHOP.Controllers
                 return View("Create");
             }
             p.CreatedAt = DateTime.Now;
+            var ff = Request.Files["ImageFile"];
+            if(ff!=null && ff.ContentLength > 0)
+            {
+                string FileName =System.IO.Path.GetFileName(ff.FileName);
+                string UploadPath = Server.MapPath("~/Image/"+FileName);
+                ff.SaveAs(UploadPath);
+                m.Id=db.Medias.Max(x => x.Id)+1;   
+                m.PathLink = FileName;
+                m.MediasName = FileName;
+                m.MediaType = 0;
+                m.ProductId= p.Id;
+            }
             try
             {
+                db.Medias.Add(m);
                 db.Products.Add(p);
                 db.SaveChanges();
                 return RedirectToAction("Listproduct");
@@ -258,6 +275,10 @@ namespace BO_SHOP.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             Product product = db.Products.Find(id);
+            List<string> paths = (from m in db.Medias
+                                  where m.Product.Id == id
+                                  select m.PathLink).ToList();
+            ViewBag.Image = paths;
             if (product == null)
             {
                 return HttpNotFound();
@@ -269,7 +290,7 @@ namespace BO_SHOP.Controllers
         [HttpPost]
         public ActionResult Edit()
         {
-
+            Media m = new Media();
             int Id = int.Parse(Request["id"]);
             Product p = db.Products.FirstOrDefault(_u => _u.Id == Id);
             p.Productname = Request["Productname"].ToString();
@@ -313,8 +334,22 @@ namespace BO_SHOP.Controllers
                 return View("Edit");
             }
             p.UpdateAt = DateTime.Now;
+
+            var ff = Request.Files["ImageFile"];
+            if (ff != null && ff.ContentLength > 0)
+            {
+                string FileName = System.IO.Path.GetFileName(ff.FileName);
+                string UploadPath = Server.MapPath("~/Image/" + FileName);
+                ff.SaveAs(UploadPath);
+                m.Id = db.Medias.Max(x => x.Id) + 1;
+                m.PathLink = FileName;
+                m.MediasName = FileName;
+                m.MediaType = 0;
+                m.ProductId = p.Id;
+            }
             try
             {
+                db.Medias.Add(m);
                 db.SaveChanges();
                 ViewBag.Success = "Sửa thông tin thành công";
                 return RedirectToAction("Listproduct", "Products");

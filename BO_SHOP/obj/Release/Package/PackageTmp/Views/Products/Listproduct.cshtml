@@ -38,7 +38,6 @@
             int? view = Model.view;
             if (trending == null)
             {
-
                 @Html.ActionLink("All trending", "Listproduct", new { trending = 0, isview = view }, new { @class = "d-inline-block btn btn-light" })
             }
             else if (trending == 0)
@@ -93,16 +92,21 @@
             <th>Product Name</th>
             <th>Slug</th>
             <th>Views</th>
+            <th>Images</th>
             @*<th>Is Published</th>*@
             <th>Product Detail</th>
             <th>Price</th>
             <th>Trending</th>
-            <th>Created At</th>
-            <th>Update At</th>
-            <th>Deleted At</th>
-            <th>Action</th>
+            @if (Session["user"] != null && ((DAL_SHOP.Models.User)Session["user"]).Role == 1)
+            
+                {
+                    <th>Created At</th>
+                    <th>Update At</th>
+                    <th>Deleted At</th>
+                    <th>Action</th>
+                }
 
-        </tr>
+            </tr>
 
         @foreach (var item in Model.ds_p)
         {
@@ -122,9 +126,19 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Views)
                 </td>
-                @*<td>
-                    @Html.DisplayFor(modelItem => item.IsPublished)
-                </td>*@
+                <td>
+                    @{
+                        if (@item.medias.Count != 0)
+                        {
+                            for (int i = 0; i < item.medias.Count; i++)
+                            {
+                                string ImagePath = "~/Image/" + item.medias[i].PathLink;
+                                <img src="@Url.Content(ImagePath)" width="100" class="img-thumbnail" />
+                            }
+                        }
+                    }
+
+                </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.ProductDetail)
                 </td>
@@ -134,49 +148,52 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Trending)
                 </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.CreatedAt)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.UpdateAt)
-                </td>
-                <td>
-                    @Html.DisplayFor(modelItem => item.DeletedAt)
-                </td>
-                <td>
-                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-light" })
-                    @{
-                        string id = "confirmDeleteModal" + item.Id.ToString();
-                        string id_data = "#confirmDeleteModal" + item.Id.ToString();
+                @if(Session["user"]!=null && ((DAL_SHOP.Models.User)Session["user"]).Role ==1){
+                    <td>
+                        @Html.DisplayFor(modelItem => item.CreatedAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.UpdateAt)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.DeletedAt)
+                    </td>
+
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-light" })
+                        @{
+                            string id = "confirmDeleteModal" + item.Id.ToString();
+                            string id_data = "#confirmDeleteModal" + item.Id.ToString();
 
 
-                    }
-                    @{
-                        if (item.DeletedAt == null)
-                        {
-                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="@id_data">Xóa</button>
                         }
-                    }
-                    <div class="modal fade" id="@id" tabindex="-1" role="dialog" aria-labelledby="@id_data" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
-                            <div class="modal-content">
-                                <div class="modal-header">
-                                    <h5 class="modal-title" id="@id">Xác nhận xóa</h5>
-                                    <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
-                                        <span aria-hidden="true">&times;</span>
-                                    </button>
-                                </div>
-                                <div class="modal-body">
-                                    Bạn có chắc chắn muốn xóa sản phẩm @item.Id ?
-                                </div>
-                                <div class="modal-footer">
-                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
-                                    @Html.ActionLink("Xóa", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                        @{
+                            if (item.DeletedAt == null)
+                            {
+                                <button type="button" class="btn btn-danger" data-toggle="modal" data-target="@id_data">Xóa</button>
+                            }
+                        }
+                        <div class="modal fade" id="@id" tabindex="-1" role="dialog" aria-labelledby="@id_data" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="@id">Xác nhận xóa</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        Bạn có chắc chắn muốn xóa sản phẩm @item.Id ?
+                                    </div>
+                                    <div class="modal-footer">
+                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                        @Html.ActionLink("Xóa", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </td>
+                    </td>
+                    }
             </tr>
         }
 
