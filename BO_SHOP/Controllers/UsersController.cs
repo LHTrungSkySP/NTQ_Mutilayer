@@ -79,8 +79,8 @@ namespace BO_SHOP.Controllers
                     ViewBag.Error = "password và confirm passowrd không khớp";
                     return View("MyProfile");
                 }
-                byte[] rs = sha.ComputeHash(Encoding.UTF8.GetBytes(password_new));
-                password_new = BitConverter.ToString(rs).Replace("-", string.Empty);
+                //byte[] rs = sha.ComputeHash(Encoding.UTF8.GetBytes(password_new));
+                //password_new = BitConverter.ToString(rs).Replace("-", string.Empty);
                 u.Password = password_new;
             }
 

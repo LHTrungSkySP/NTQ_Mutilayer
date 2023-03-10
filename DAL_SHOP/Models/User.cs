@@ -32,10 +32,12 @@ namespace DAL_SHOP.Models
 
         public int Role { get; set; }
 
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime CreatedAt { get; set; }
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
 
         public DateTime? UpdatedAt { get; set; }
-
+        [DisplayFormat(DataFormatString = "{0:dd/MM/yyyy}")]
         public DateTime? DeletedAt { get; set; }
 
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

@@ -1,0 +1,208 @@
+﻿@model BO_SHOP.Models.productspaging
+
+@if (ViewBag.deletesuccess == 1)
+{
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000" style="position: absolute; top: 1rem; right: 1rem;">
+        <div class="toast-header">
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            Xóa thành công
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy phần tử có class là "toast"
+            var toast = document.querySelector(".toast");
+
+            // Thêm lớp "show" để hiển thị thông báo
+            toast.classList.add("show");
+            setTimeout(removeToastClass, 2000);
+        });
+        function removeToastClass() {
+            var toast = document.querySelector(".toast");
+            toast.classList.remove("show");
+        }
+    </script>
+}
+
+<h2>Danh sách Product</h2>
+@Html.ActionLink("Create New", "Create", null, new { @class = "d-inline-block btn btn-dark" })
+<div class="d-flex justify-content-around">
+    <div class="d-inline-block ">
+        <label>Trending: </label>
+        @{
+            int? trending = Model.trending;
+            int? view = Model.view;
+            if (trending == null)
+            {
+
+                @Html.ActionLink("All trending", "Listproduct", new { trending = 0, isview = view }, new { @class = "d-inline-block btn btn-light" })
+            }
+            else if (trending == 0)
+            {
+                @Html.ActionLink("No Trending", "Listproduct", new { trending = 1, isview = view }, new { @class = "d-inline-block btn btn-light" })
+
+            }
+            else if (trending == 1)
+            {
+                @Html.ActionLink("Trending", "Listproduct", new { trending = "", isview = view }, new { @class = "d-inline-block btn btn-dark" })
+
+            }
+        }
+
+    </div>
+    <div class="d-inline-block">
+        <form action="" method="get">
+            <label>Tìm theo ProductName: </label>
+            @Html.TextBox("keyword")
+            <input type="submit" value="Tìm" />
+
+        </form>
+    </div>
+    <div class="d-inline-block">
+        <label>View: </label>
+        @{
+            if (view == null)
+            {
+
+                @Html.ActionLink("All", "Listproduct", new { isview = 1, trending = trending }, new { @class = "d-inline-block btn btn-light " })
+            }
+            else if (view == 1)
+            {
+                @Html.ActionLink("View --", "Listproduct", new { isview = 2, trending = trending }, new { @class = "d-inline-block btn btn-light " })
+
+            }
+            else if (view == 2)
+            {
+                @Html.ActionLink("View ++", "Listproduct", new { isview = "", trending = trending }, new { @class = "d-inline-block btn btn-dark " })
+
+            }
+        }
+
+    </div>
+</div>
+@if (Model.ds_p.Count() != 0)
+{
+    <table class="table">
+        <tr>
+            <th>Category</th>
+            <th>Shop Name</th>
+            <th>Product Name</th>
+            <th>Slug</th>
+            <th>Views</th>
+            @*<th>Is Published</th>*@
+            <th>Product Detail</th>
+            <th>Price</th>
+            <th>Trending</th>
+            <th>Created At</th>
+            <th>Update At</th>
+            <th>Deleted At</th>
+            <th>Action</th>
+
+        </tr>
+
+        @foreach (var item in Model.ds_p)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CategoryName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Shopname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Slug)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Views)
+                </td>
+                @*<td>
+                    @Html.DisplayFor(modelItem => item.IsPublished)
+                </td>*@
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductDetail)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Trending)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UpdateAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeletedAt)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-light" })
+                    @{
+                        string id = "confirmDeleteModal" + item.Id.ToString();
+                        string id_data = "#confirmDeleteModal" + item.Id.ToString();
+
+
+                    }
+                    @{
+                        if (item.DeletedAt == null)
+                        {
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="@id_data">Xóa</button>
+                        }
+                    }
+                    <div class="modal fade" id="@id" tabindex="-1" role="dialog" aria-labelledby="@id_data" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="@id">Xác nhận xóa</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Bạn có chắc chắn muốn xóa sản phẩm @item.Id ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                    @Html.ActionLink("Xóa", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+    <div class="d-inline-flex w-100 justify-content-center">
+        @{
+
+            for (int i = 1; i < Model.total; i++)
+            {
+                if (i == Model.pageCurrent)
+                {
+                    <a href="@Url.Action("Listproduct", new { pageNumber = i, trending = trending, view = view })" class="d-inline-block btn btn-danger">@i</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Listproduct", new { pageNumber = i, trending = trending, view = view })" class="d-inline-block btn btn-dark">@i</a>
+
+                }
+
+            }
+        }
+
+    </div>
+}
+else
+{
+    <h1>No data</h1>
+}
+

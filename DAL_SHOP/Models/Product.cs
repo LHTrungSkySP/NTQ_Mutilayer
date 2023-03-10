@@ -29,6 +29,8 @@ namespace DAL_SHOP.Models
         public string Slug { get; set; }
 
         public int Shopid { get; set; }
+        public int? Views { get; set; }
+        public int? IsPublished { get; set; }
 
         [Column(TypeName = "text")]
         public string ProductDetail { get; set; }

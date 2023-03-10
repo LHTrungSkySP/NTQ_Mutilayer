@@ -44,7 +44,7 @@ namespace BO_SHOP.Controllers
 
             }
 
-            string passre = f["password"];
+            string passre = f["passwordre"];
             if (pass != passre)
             {
                 ViewBag.ErrorMessage = "Mật khẩu không trùng!!!";
@@ -56,9 +56,10 @@ namespace BO_SHOP.Controllers
                 ViewBag.ErrorMessage = "Email đã tồn tại, xin mời nhập email khác!!!";
                 return View("Register");
             }
-            SHA256 sha = SHA256.Create();
-            byte[] rs = sha.ComputeHash(Encoding.UTF8.GetBytes(pass));
-            _u.Password = BitConverter.ToString(rs).Replace("-", string.Empty);
+            //SHA256 sha = SHA256.Create();
+            //byte[] rs = sha.ComputeHash(Encoding.UTF8.GetBytes(pass));
+            //_u.Password = BitConverter.ToString(rs).Replace("-", string.Empty);
+            _u.Password = pass;
             _u.Role = 0;
             _u.CreatedAt = DateTime.Now;
             try
@@ -85,9 +86,9 @@ namespace BO_SHOP.Controllers
         {
             string namelogin = Request["namelogin"];
             string pass = Request["password"];
-            SHA256 sha = SHA256.Create();
-            byte[] rs = sha.ComputeHash(Encoding.UTF8.GetBytes(pass));
-            pass = BitConverter.ToString(rs).Replace("-", string.Empty);
+            //SHA256 sha = SHA256.Create();
+            //byte[] rs = sha.ComputeHash(Encoding.UTF8.GetBytes(pass));
+            //pass = BitConverter.ToString(rs).Replace("-", string.Empty);
 
             string pattern = "[^a-zA-Z0-9]"; // biểu thức chính quy: không phải ký tự a-z, A-Z, 0-9
             bool containsSpecialChars = Regex.IsMatch(namelogin, pattern); // kiểm tra chuỗi có chứa ký tự đặc biệt hay không

@@ -69,5 +69,7 @@ namespace DAL_SHOP.Models
                 .WithRequired(e => e.User)
                 .WillCascadeOnDelete(false);
         }
+
+        //public System.Data.Entity.DbSet<BO_SHOP.Models.ProductRow> ProductRows { get; set; }
     }
 }
