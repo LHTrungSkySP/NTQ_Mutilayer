@@ -1,5 +1,5 @@
 ﻿@model BO_SHOP.Models.productspaging
-
+@*nếu vừa thực hiện xóa xong*@ 
 @if (ViewBag.deletesuccess == 1)
 {
     <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000" style="position: absolute; top: 1rem; right: 1rem;">
@@ -27,9 +27,14 @@
         }
     </script>
 }
-
 <h2>Danh sách Product</h2>
-@Html.ActionLink("Create New", "Create", null, new { @class = "d-inline-block btn btn-dark" })
+
+@*nếu đang nhập là admin*@ 
+@if (Session["user"]!=null && ((DAL_SHOP.Models.User)Session["user"]).Role == 1)
+    {
+        @Html.ActionLink("Create New", "Create", null, new { @class = "d-inline-block btn btn-dark" })
+    }
+
 <div class="d-flex justify-content-around">
     <div class="d-inline-block ">
         <label>Trending: </label>
@@ -96,10 +101,11 @@
             @*<th>Is Published</th>*@
             <th>Product Detail</th>
             <th>Price</th>
-            <th>Trending</th>
-            @if (Session["user"] != null && ((DAL_SHOP.Models.User)Session["user"]).Role == 1)
+
             
+            @if (Session["user"] != null && ((DAL_SHOP.Models.User)Session["user"]).Role == 1)
                 {
+                    <th>Trending</th>
                     <th>Created At</th>
                     <th>Update At</th>
                     <th>Deleted At</th>
@@ -145,10 +151,10 @@
                 <td>
                     @Html.DisplayFor(modelItem => item.Price)
                 </td>
+                @if(Session["user"]!=null && ((DAL_SHOP.Models.User)Session["user"]).Role ==1){
                 <td>
                     @Html.DisplayFor(modelItem => item.Trending)
                 </td>
-                @if(Session["user"]!=null && ((DAL_SHOP.Models.User)Session["user"]).Role ==1){
                     <td>
                         @Html.DisplayFor(modelItem => item.CreatedAt)
                     </td>

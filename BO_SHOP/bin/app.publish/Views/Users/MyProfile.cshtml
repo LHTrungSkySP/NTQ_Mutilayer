@@ -1,0 +1,59 @@
+﻿
+@model DAL_SHOP.Models.User
+
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Thông tin người dùng</h5>
+            <form action="~/Users/MyProfilePost" method="post">
+                <div class="form-group">
+                    <label class="control-label" for="Username">Tên đăng nhập</label>
+                    <input class="form-control" id="Username" name="Username" type="text" value="@Model.Username">
+                </div>
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" data-val="true" value="@Model.Email" required readonly>
+                </div>
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input autocomplete="off" type="password" class="form-control" id="password" name="password_new" placeholder="Nhập mật khẩu mới">
+                </div>
+                <div class="form-group">
+                    <label for="password">Comfirm Password</label>
+                    <input type="password" class="form-control" id="password1" name="password_new_comfirm" placeholder="Xác nhận mật khẩu mới">
+                </div>
+                <div class="form-group">
+                    <label for="role">Type</label>
+                    @if (Model.Role == 0)
+                    {
+                        <input class="form-control" id="role" type="text" value="USER" required readonly>
+                    }
+                    else
+                    {
+                        <input class="form-control" id="role" type="text" value="ADMIN" required readonly>
+                    }
+                </div>
+                @if (ViewBag.Error != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.Error
+                    </div>
+                }
+                @if (ViewBag.Success != null)
+                {
+                    <div class="alert alert-success">
+                        @ViewBag.Success
+                    </div>
+                }
+
+                <button type="submit" class="btn btn-primary">Update</button>
+
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        document.getElementById("")
+        }
+</script>

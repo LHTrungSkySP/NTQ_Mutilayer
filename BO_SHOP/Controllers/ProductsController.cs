@@ -38,9 +38,11 @@ namespace BO_SHOP.Controllers
                     command.Parameters.Add(new SqlParameter("@Trending", trending));
                     command.Parameters.Add(new SqlParameter("@Keyword", keyword));
                     command.Parameters.Add(new SqlParameter("@IsView", isview));
-                    if (Session["user"]!=null && ((User)Session["user"]).Role != 0)
+
+                    //đăng nhập admin 
+                    if (Session["user"]==null || ((User)Session["user"]).Role == 0)
                     {
-                        command.Parameters.Add(new SqlParameter("@IsPublished", 1));
+                        command.Parameters.Add(new SqlParameter("@IsPublished", 2));
                     }
                     using (var reader = command.ExecuteReader())
                     {

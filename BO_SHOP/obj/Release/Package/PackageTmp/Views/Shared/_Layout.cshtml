@@ -18,12 +18,15 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav w-100">
+
+                @*chưa đăng nhập*@ 
                 @if (Session["user"] == null)
                 {
                     <li class="nav-item active">
-                        @Html.ActionLink("Home", "Index", "Home", null, new { @class = "nav-link" })
+                        @Html.ActionLink("Home", "Listproduct", "Products", null, new { @class = "nav-link" })
                     </li>
                 }
+                @*đăng nhập với tư cách user*@ 
                 else if (Session["user"] != null && ((DAL_SHOP.Models.User)Session["user"]).Role == 0)
                 {
                     <li class="nav-item">
@@ -37,6 +40,7 @@
                         @Html.ActionLink("My wishlists ", "Index", "Home", null, new { @class = "nav-link" })
                     </li>
                 }
+                @*đăng nhập với tư cách admin*@
                 else
                 {
 
@@ -44,14 +48,18 @@
                         @Html.ActionLink("List User", "Listuser", "Admin", null, new { @class = "nav-link" })
                     </li>
                     <li class="nav-item">
-                        @Html.ActionLink("List Shop", "Index", "Home", null, new { @class = "nav-link" })
+                        @Html.ActionLink("List Shop", "Listshop", "Admin", null, new { @class = "nav-link" })
 
                     </li>
                     <li class="nav-item">
                         @Html.ActionLink("List Review", "Index", "Home", null, new { @class = "nav-link" })
                     </li>
+                    <li class="nav-item">
+                        @Html.ActionLink("List Product", "Listproduct", "Products", null, new { @class = "nav-link" })
+                    </li>
                 }
             </ul>
+            @*chưa đăng nhập*@ 
             @if (Session["user"] == null)
             {
                 <ul class="navbar-nav ">
@@ -65,6 +73,7 @@
 
                 </ul>
             }
+            @*đã đăng nhập và hiển thị tên người đăng nhập*@ 
             else
             {
                 string name = ((DAL_SHOP.Models.User)Session["user"]).Username;

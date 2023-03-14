@@ -1,0 +1,63 @@
+﻿@model IEnumerable<DAL_SHOP.Models.Shop>
+
+@{
+    ViewBag.Title = "ListShop";
+}
+
+<h2>ListShop</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Shopname)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.CreatedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.UpdateAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.DeletedAt)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.NumberPhone)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Shopname)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreatedAt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.UpdateAt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.DeletedAt)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.NumberPhone)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Address)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.Id }) |
+            @Html.ActionLink("Details", "Details", new { id=item.Id }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.Id })
+        </td>
+    </tr>
+}
+
+</table>

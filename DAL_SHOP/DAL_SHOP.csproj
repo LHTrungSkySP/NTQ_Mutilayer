@@ -59,6 +59,7 @@
     </Reference>
     <Reference Include="System.ServiceProcess" />
     <Reference Include="System.Transactions" />
+    <Reference Include="System.Web" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -78,6 +79,8 @@
     <Compile Include="Models\WishList.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UtilityModels\ContextDB_ULT.cs" />
+    <Compile Include="UtilityModels\SessionHelper.cs" />
+    <Compile Include="UtilityModels\UserSession.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

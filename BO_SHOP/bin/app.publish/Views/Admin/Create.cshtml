@@ -1,0 +1,61 @@
+﻿@model DAL_SHOP.Models.User
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Add user</h5>
+            <form action="~/Admin/Create" method="post">
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập</label>
+                    <input required type="text" class="form-control" id="username" name="username" placeholder="Nhập tên đăng nhập">
+                    @if (ViewBag.ErrorUserVal != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.ErrorUserVal
+                        </div>
+                    }
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input required type="password" class="form-control" id="password" name="password" placeholder="Nhập mật khẩu">
+                </div>
+                @if (ViewBag.ErrorPasswordVal != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.ErrorPasswordVal
+                    </div>
+                }
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" data-val="true" required>
+
+                </div>
+                <div class="form-group">
+                @{ IEnumerable<string> strList = new List<string> { "USER", "ADMIN" }; }
+                @Html.DropDownList("role", new SelectList(strList, strList.FirstOrDefault()))
+
+                </div>
+
+                @if (ViewBag.ErrorMessage != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.ErrorMessage
+                    </div>
+                }
+                <button type="submit" class="btn btn-primary">Create</button>
+                <div>
+                    @Html.ActionLink("Back", "Listuser")
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -1,0 +1,230 @@
+﻿@model BO_SHOP.userspaging
+
+@if (ViewBag.deletesuccess == 1)
+{
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000" style="position: absolute; top: 1rem; right: 1rem;">
+        <div class="toast-header">
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            Xóa thành công
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy phần tử có class là "toast"
+            var toast = document.querySelector(".toast");
+
+            // Thêm lớp "show" để hiển thị thông báo
+            toast.classList.add("show");
+            setTimeout(removeToastClass, 2000);
+        });
+        function removeToastClass() {
+            var toast = document.querySelector(".toast");
+            toast.classList.remove("show");
+        }
+    </script>
+}
+@if (ViewBag.success != null)
+{
+    <div class="toast" role="alert" aria-live="assertive" aria-atomic="true" data-delay="2000" style="position: absolute; top: 1rem; right: 1rem;">
+        <div class="toast-header">
+            <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="toast-body">
+            @ViewBag.success
+        </div>
+    </div>
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            // Lấy phần tử có class là "toast"
+            var toast = document.querySelector(".toast");
+
+            // Thêm lớp "show" để hiển thị thông báo
+            toast.classList.add("show");
+            setTimeout(removeToastClass, 2000);
+        });
+        function removeToastClass() {
+            var toast = document.querySelector(".toast");
+            toast.classList.remove("show");
+        }
+    </script>
+}
+<h2>Danh sách User</h2>
+@Html.ActionLink("Create New", "Create", null, new { @class = "d-inline-block btn btn-dark" })
+<div class="d-flex justify-content-around">
+    <div class="d-inline-block ">
+        <label>Role: </label>
+        @{
+            int? role = Model.role;
+            int? isDeleted = Model.isDeleted;
+            if (role == null)
+            {
+
+                @Html.ActionLink("All role", "Listuser", new { role = 0, isDeleted = isDeleted }, new { @class = "d-inline-block btn btn-light" })
+            }
+            else if (role == 0)
+            {
+                @Html.ActionLink("User", "Listuser", new { role = 1, isDeleted = isDeleted }, new { @class = "d-inline-block btn btn-light" })
+
+            }
+            else if (role == 1)
+            {
+                @Html.ActionLink("Admin", "Listuser", new { role = "", isDeleted = isDeleted }, new { @class = "d-inline-block btn btn-dark" })
+
+            }
+        }
+
+    </div>
+    <div class="d-inline-block">
+        <form action="" method="get">
+            <label>Tìm theo Username: </label>
+            @Html.TextBox("keyword")
+            <input type="submit" value="Tìm" />
+
+        </form>
+    </div>
+    <div class="d-inline-block">
+        <label>IsDeleted: </label>
+        @{
+            if (isDeleted == null)
+            {
+
+                @Html.ActionLink("All", "Listuser", new { isDeleted = 0, role = role }, new { @class = "d-inline-block btn btn-light " })
+            }
+            else if (isDeleted == 0)
+            {
+                @Html.ActionLink("Deleted", "Listuser", new { isDeleted = 1, role = role }, new { @class = "d-inline-block btn btn-light " })
+
+            }
+            else if (isDeleted == 1)
+            {
+                @Html.ActionLink("No Deleted", "Listuser", new { isDeleted = "", role = role }, new { @class = "d-inline-block btn btn-dark " })
+
+            }
+        }
+
+    </div>
+</div>
+
+@if (Model.ds_u.Count() != 0)
+{
+    <table class="table ">
+        <tr>
+            <th>Id</th>
+            <th>Username</th>
+            <th>Password</th>
+            <th>Email</th>
+            <th>Role</th>
+            <th>Created At</th>
+            <th>Updated At</th>
+            <th>Deleted At</th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model.ds_u)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Id)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Username)
+                </td>
+                <td>
+                    @{
+                        int len = item.Password.Length;
+                        string pass = "";
+                        for (int i = 0; i < len; i++)
+                        {
+                            pass += "*";
+                        }
+                    }
+                    @pass
+
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Role)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.CreatedAt)
+                </td>
+                <td>
+
+                    @Html.DisplayFor(modelItem => item.UpdatedAt)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.DeletedAt)
+                </td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { id = item.Id }, new { @class = "btn btn-light" })
+
+                    @{
+                        string id = "confirmDeleteModal" + item.Id.ToString();
+                        string id_data = "#confirmDeleteModal" + item.Id.ToString();
+
+
+                    }
+                    @{
+                        if (item.DeletedAt == null)
+                        {
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="@id_data">Xóa</button>
+                        }
+                    }
+                    <div class="modal fade" id="@id" tabindex="-1" role="dialog" aria-labelledby="@id_data" aria-hidden="true">
+                        <div class="modal-dialog" role="document">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h5 class="modal-title" id="@id">Xác nhận xóa</h5>
+                                    <button type="button" class="close" data-dismiss="modal" aria-label="Đóng">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                </div>
+                                <div class="modal-body">
+                                    Bạn có chắc chắn muốn xóa người dùng @item.Id ?
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Hủy</button>
+                                    @Html.ActionLink("Xóa", "Delete", new { id = item.Id }, new { @class = "btn btn-danger" })
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+    <div class="d-inline-flex w-100 justify-content-center">
+        @{
+
+            for (int i = 1; i < Model.total; i++)
+            {
+                if (i == Model.pageCurrent)
+                {
+                    <a href="@Url.Action("Listuser", new { pageNumber = i, isDeleted = isDeleted, role = role })" class="d-inline-block btn btn-danger">@i</a>
+                }
+                else
+                {
+                    <a href="@Url.Action("Listuser", new { pageNumber = i, isDeleted = isDeleted, role = role })" class="d-inline-block btn btn-dark">@i</a>
+
+                }
+
+            }
+        }
+
+    </div>
+}
+else
+{
+    <h1>No data</h1>
+
+}
+

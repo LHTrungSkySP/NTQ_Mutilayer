@@ -34,7 +34,7 @@ namespace BO_SHOP.Controllers
             if (name == null)
             {
                 ViewBag.ErrorUserNameVal = "Username không được để trống";
-                return View("MyProfile");
+                return View("MyProfile",u);
             }
             if (u.Username != name)
             {
@@ -45,7 +45,7 @@ namespace BO_SHOP.Controllers
                 else
                 {
                     ViewBag.ErrorUserNameVal = "Username dã tồn tại";
-                    return View("MyProfile");
+                    return View("MyProfile",u);
                 }
             }
 
@@ -54,7 +54,7 @@ namespace BO_SHOP.Controllers
             if (containsSpecialChars)
             {
                 ViewBag.ErrorUserNameVal = "Chuỗi không được chứa ký tự đặc biệt";
-                return View("MyProfile");
+                return View("MyProfile", u);
             }
             u.UpdatedAt = DateTime.Now;
 
@@ -66,18 +66,18 @@ namespace BO_SHOP.Controllers
                 if (!Regex.IsMatch(password_new, passwordPattern))
                 {
                     ViewBag.Error = "Password phải từ 8-20 kí tự bao gồm ít nhất 1 kí tự số, 1 kí tự viết hoa và 1 kí tự đặc biệt";
-                    return View("MyProfile");
+                    return View("MyProfile", u);
                 }
                 if (string.IsNullOrEmpty(password_new_comfirm))
                 {
                     ViewBag.Error = "Confirm password không được để trống";
-                    return View("MyProfile");
+                    return View("MyProfile", u);
                 }
                 SHA256 sha = SHA256.Create();
                 if (password_new != password_new_comfirm)
                 {
                     ViewBag.Error = "password và confirm passowrd không khớp";
-                    return View("MyProfile");
+                    return View("MyProfile", u);
                 }
                 //byte[] rs = sha.ComputeHash(Encoding.UTF8.GetBytes(password_new));
                 //password_new = BitConverter.ToString(rs).Replace("-", string.Empty);
@@ -86,7 +86,7 @@ namespace BO_SHOP.Controllers
 
             db.SaveChanges();
             ViewBag.Success = "Sửa thông tin thành công";
-            return View("MyProfile", u);
+            return View("Listuser");
         }
     }
 }

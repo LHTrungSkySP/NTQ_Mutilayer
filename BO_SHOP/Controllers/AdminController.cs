@@ -92,6 +92,13 @@ namespace BO_SHOP.Controllers
             return View();
         }
 
+        // GET: Admin/Create
+        public ActionResult ListShop()
+        {
+
+            return View(db.Shops.ToList());
+        }
+
         // POST: Admin/Create
         // To protect from overposting attacks, enable the specific properties you want to bind to, for 
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.

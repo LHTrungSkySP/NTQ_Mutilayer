@@ -1,0 +1,71 @@
+﻿@model DAL_SHOP.Models.User
+
+@{
+    ViewBag.Title = "Edit User";
+}
+
+
+
+<div class="container d-flex justify-content-center align-items-center" style="height: 100vh;">
+    <div class="card">
+        <div class="card-body">
+            <h5 class="card-title">Edit User</h5>
+            @using (Html.BeginForm())
+            {
+                <div class="form-group">
+                    <label for="username">Tên đăng nhập</label>
+                    <input required type="text" class="form-control" id="username" name="username" placeholder="Nhập tên đăng nhập" value="@Model.Username">
+                    <input hidden type="text" class="form-control" id="username" name="id" placeholder="Nhập tên đăng nhập" value="@Model.Id">
+                    @if (ViewBag.ErrorUserVal != null)
+                    {
+                        <div class="alert alert-danger">
+                            @ViewBag.ErrorUserVal
+                        </div>
+                    }
+                </div>
+                <div class="form-group">
+                    <label for="password">Mật khẩu</label>
+                    <input required type="text" class="form-control" id="password" name="password" value="@Model.Password" placeholder="Nhập mật khẩu">
+                </div>
+                if (ViewBag.ErrorPasswordVal != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.ErrorPasswordVal
+                    </div>
+                }
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" name="email" id="email" class="form-control" data-val="true" value="@Model.Email">
+
+                </div><div class="form-group">
+
+    @if (Model.Role == 1)
+    {
+        <input checked="checked" name="role" type="checkbox" value="ADMIN">
+        }
+    else
+    {
+                      <input name="role" type="checkbox" value="ADMIN">
+
+    }IS ADMIN
+
+</div>
+                if (ViewBag.ErrorMessage != null)
+                {
+                    <div class="alert alert-danger">
+                        @ViewBag.ErrorMessage
+                    </div>
+                }
+
+                    <input type="submit" value="Update">
+                <div>
+                    @Html.ActionLink("Back", "Listuser")
+                </div>
+            }
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
